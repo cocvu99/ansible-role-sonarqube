@@ -1,0 +1,13 @@
+--- 
+
+- name: ping test
+  ping: ~
+
+- name: Install dependencies
+  include: dependencies.yml
+
+- name: Install PostgreSQL
+  include: postgresql-install.yml
+
+# - name: Setup PostgreSQL
+#   include: postgresql-setup.yml

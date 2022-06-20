@@ -1,0 +1,9 @@
+---
+- name: Install SonarQube dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - openjdk-11-jdk
+    - postgresql
+    - zip

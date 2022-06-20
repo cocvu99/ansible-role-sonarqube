@@ -1,0 +1,10 @@
+---
+# Now fix the error the following lines
+- name: Add sonar user, set password, sonar database, add privileges 
+  community.postgresql.postgresql_user:
+    db: sonarqube
+    name: sonar
+    password: my_strong_password
+    priv: "ALL"
+    state: present
+

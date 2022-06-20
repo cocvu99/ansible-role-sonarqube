@@ -1,0 +1,36 @@
+---
+
+- name: Add the PostgreSQL repository
+  template:
+    src: pgdg.list
+    dest: /etc/apt/sources.list.d/pgdg.list
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Add the PostgreSQL signing key
+  ansible.builtin.apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    state: present
+
+- name: Update repositories cache 
+  apt:
+    update_cache: yes
+
+- name: Install PostgreSQL 
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - postgresql
+    - postgresql-contrib
+
+- name: Enable the database server when startup
+  systemd:
+    name: postgresql
+    enabled: yes
+
+- name: Start the database server
+  systemd:
+    name: postgresql
+    state: started
