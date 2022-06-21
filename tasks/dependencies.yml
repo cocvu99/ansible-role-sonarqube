@@ -7,3 +7,11 @@
     - openjdk-11-jdk
     - postgresql
     - zip
+    - python3-dev
+    - libpq-dev
+    - python3-pip
+    - acl
+
+- name: Install Psycopg2 
+  pip:
+    name: psycopg2

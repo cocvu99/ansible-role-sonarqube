@@ -1,0 +1,26 @@
+---
+
+- name: Create sonarqube directory
+  file:
+    state: directory
+    path: "{{ sonar_install_directory }}"
+
+- name: Download the SonarQube distribution file
+  get_url:
+    url: "{{ sonar_download_url }}"
+    dest: "/tmp/{{ sonar_archive }}"
+  retries: 5
+  delay: 10
+
+- name: Extract sonarqube zip file 
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ sonar_archive }}"
+    dest: "{{ sonar_install_directory }}"
+    owner: "{{ sonar_user }}"
+    group: "{{ sonar_group }}"
+    copy: no
+
+- name: Remove the zip file
+  ansible.builtin.file:
+    path: "/tmp/{{ sonar_archive }}"
+    state: absent

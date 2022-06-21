@@ -1,0 +1,40 @@
+---
+
+- name: Setup template to the pg_hba.conf file
+  template:
+    src: pg_hba.conf.j2
+    dest: /etc/postgresql/12/main/pg_hba.conf
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Restart service after setup template
+  systemd:
+    name: postgresql
+    state: restarted
+  
+- name: Create SonarQube database
+  community.postgresql.postgresql_db:
+    name: sonarqube
+    state: present
+  become: true
+  become_user: postgres
+
+- name: Create user name sonar
+  community.postgresql.postgresql_user:
+    db: sonarqube
+    name: sonar
+    password: my_strong_password
+  become: true
+  become_user: postgres
+
+- name: Grant db user access to app database
+  community.postgresql.postgresql_privs:
+    type: database
+    database: sonarqube
+    state: present
+    roles: sonar
+    privs: ALL
+    grant_option: yes
+  become: true
+  become_user: postgres

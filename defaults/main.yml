@@ -1,3 +1,21 @@
----
+sonar_version: "8.9.9.56886"
 
-# Example
+# SonarQube Install directory
+sonar_install_directory: /opt/sonarqube
+
+# SonarQube base directory
+sonar_base_dir: "{{ sonar_install_directory }}/sonarqube-{{ sonar_version }}"
+
+# SonarQube conf directory
+sonar_conf_dir: "{{ sonar_base_dir }}/conf"
+
+sonar_logs_dir: "/var/log/sonarqube"
+
+# Paths to persistent data files (embedded database and search index)
+sonar_data_dir: "{{ sonar_base_dir }}/data"
+
+# Paths to temporary files
+sonar_temp_dir: "{{ sonar_base_dir }}/temp"
+
+sonar_user: sonar
+sonar_group: sonar

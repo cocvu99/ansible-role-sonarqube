@@ -9,5 +9,14 @@
 - name: Install PostgreSQL
   include: postgresql-install.yml
 
-# - name: Setup PostgreSQL
-#   include: postgresql-setup.yml
+- name: Setup PostgreSQL
+  include: postgresql-setup.yml
+
+- name: Install SonarQube
+  include: sonarqube-install.yml
+
+- name: Setup SonarQube
+  include: sonarqube-setup.yml
+
+- name: Finish setup
+  include: finish-setup.yml

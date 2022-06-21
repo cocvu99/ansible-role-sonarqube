@@ -1,0 +1,52 @@
+---
+
+- name: Ensure group "sonar" exists
+  ansible.builtin.group:
+    name: sonar
+    state: present
+
+- name: Create a sonar user and set /opt/sonarqube as the home directory.
+  ansible.builtin.user:
+    name: sonar
+    state: present
+    home: "{{ sonar_install_directory }}"
+
+- name: Grant the sonar user access to the /opt/sonarqube directory
+  file:
+    path: "{{ sonar_install_directory }}"
+    owner: "{{ sonar_user }}"
+    group: "{{ sonar_group }}"
+
+- name: Configure sonar.properties
+  template:
+    src: sonar.properties.j2
+    dest: "{{ sonar_base_dir }}/conf/sonar.properties"
+    owner: "{{ sonar_user }}"
+    group: "{{ sonar_group }}"
+    mode: '0755'
+
+- name: Configure sonar script file
+  template:
+    src: sonar.sh
+    dest: "{{ sonar_base_dir }}/bin/linux-x86-64/sonar.sh"
+    owner: "{{ sonar_user }}"
+    group: "{{ sonar_group }}"
+    mode: '0755'
+
+- name: Create a systemd service file to start SonarQube 
+  template:
+    src: sonar.service
+    dest: /etc/systemd/system/sonar.service
+    owner: "{{ sonar_user }}"
+    group: "{{ sonar_group }}"
+    mode: '0755'
+
+- name: Reload daemon
+  systemd:
+    daemon_reload: yes
+
+- name: Enabled start-up and start sonarqube service
+  systemd:
+    name: sonar
+    enabled: yes
+    state: started
