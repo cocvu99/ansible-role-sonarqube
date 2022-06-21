@@ -1,3 +1,4 @@
----
-
-# TODO: To be continued
+sonarsource_url: "https://binaries.sonarsource.com"
+sonar_distribution_url: "{{ sonarsource_url }}/Distribution"
+sonar_archive: "sonarqube-{{ sonar_version }}.zip"
+sonar_download_url: "{{ sonar_distribution_url }}/sonarqube/{{ sonar_archive }}"
