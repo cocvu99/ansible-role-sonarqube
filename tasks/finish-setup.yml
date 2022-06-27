@@ -7,3 +7,12 @@
     owner: root
     group: root
     mode: '0644'
+
+- name: Reset sysctl.conf
+  ansible.posix.sysctl:
+    reload: yes
+
+- name: Ensure to start sonarqube service
+  systemd:
+    name: sonar
+    state: started

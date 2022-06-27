@@ -1,5 +1,15 @@
 ---
 
+- name: Ensure group "sonar" exists
+  ansible.builtin.group:
+    name: sonar
+    state: present
+
+- name: Create a sonar user and set /opt/sonarqube as the home directory.
+  ansible.builtin.user:
+    name: sonar
+    state: present
+
 - name: Create sonarqube directory
   file:
     state: directory
